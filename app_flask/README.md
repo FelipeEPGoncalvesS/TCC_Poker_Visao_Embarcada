@@ -23,7 +23,7 @@ Esta pasta é a aplicação que roda na Raspberry Pi 5. O fluxo de uma decisão 
 | `poker/rag.py` | recuperação: trechos do livro (`BaseConhecimento`), base curada (`BaseCurada`) ou nenhuma (`SemRAG`) |
 | `poker/llm.py` | chamada ao Ollama (Gemma 3 1B), aquecimento e métricas de *tokens* |
 | `poker/pipeline.py` | orquestra todas as etapas de uma decisão |
-| `poker/partida.py` | estado da mão na interface (posição, cartas por rua) |
+| `poker/partida.py` | estado da mão na interface (posição, cartas por fase da mão) |
 | `poker/benchmark.py` | log CSV com tempos, *tokens*, CPU, RAM e temperatura |
 | `benchmark_rag.py` | benchmark em lote contra a referência de equidade |
 | `criar_base_curada.py` | cria o índice Chroma da base curada a partir de `base_estrategia.json` |
@@ -32,7 +32,7 @@ Esta pasta é a aplicação que roda na Raspberry Pi 5. O fluxo de uma decisão 
 
 | Variável | Padrão | Efeito |
 |---|---|---|
-| `RAG_FONTE` | `livro` | `livro` usa trechos de 300 caracteres; `curada` usa as fichas por rua e situação |
+| `RAG_FONTE` | `livro` | `livro` usa trechos de 300 caracteres; `curada` usa as fichas por fase da mão e situação |
 | `USAR_FAST_PATH` | `1` | decide sem o modelo de linguagem nos casos conclusivos |
 | `CORRIGIR_INCOERENCIA` | `1` | troca a ação incoerente pela ação segura da regra violada |
 | `BB_CHECK_GRATIS` | `1` | caminho rápido indica Check, em vez de Fold, para mão fraca no Big Blind |
@@ -54,9 +54,9 @@ Quando `CORRIGIR_INCOERENCIA=1`, a ação do modelo é substituída nos casos ab
 
 ## Base curada (`base_estrategia.json`)
 
-São 43 fichas, uma por rua e situação. No pré-flop, a situação é a categoria da mão combinada com o grupo de posição. No pós-flop, é algo como *top pair*, par médio, projeto forte ou jogo só na mesa.
+São 43 fichas, uma por fase da mão e situação. No pré-flop, a situação é a categoria da mão combinada com o grupo de posição. No pós-flop, é algo como *top pair*, par médio, projeto forte ou jogo só na mesa.
 
-Cada ficha resume a recomendação de "O livro verde do pôquer" e informa as páginas do PDF que a fundamentam. A recuperação filtra a ficha pelos metadados (rua e situação) calculados pelo avaliador e coloca uma única ficha no *prompt*.
+Cada ficha resume a recomendação de "O livro verde do pôquer" e informa as páginas do PDF que a fundamentam. A recuperação filtra a ficha pelos metadados (fase da mão e situação) calculados pelo avaliador e coloca uma única ficha no *prompt*.
 
 Depois de editar o JSON, recrie o índice:
 

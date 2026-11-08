@@ -47,7 +47,7 @@ Entre 60% e 80% do tempo do modelo de linguagem vai para processar o *prompt*, e
 
 ### Qualidade das decisões: benchmark com referência de equidade
 
-Um script sorteia 40 situações de jogo (dez por rua) e compara a ação recomendada com uma referência. A referência é a equidade da mão contra dois oponentes, estimada por Monte Carlo. Cada célula mostra concordância / erros graves:
+Um script sorteia 40 situações de jogo (dez em cada fase da mão: pré-flop, flop, turn e river) e compara a ação recomendada com uma referência. A referência é a equidade da mão contra dois oponentes, estimada por Monte Carlo. Cada célula mostra concordância / erros graves:
 
 | Configuração | Sem RAG | RAG com o livro | RAG com a base curada |
 |---|---|---|---|
@@ -59,7 +59,7 @@ Um script sorteia 40 situações de jogo (dez por rua) e compara a ação recome
 O que os resultados mostram:
 
 - **Trechos do livro:** pioraram as decisões na rodada 1 (McNEMAR, p ≈ 0,006). O estilo agressivo do livro, fora de contexto, empurrou o modelo para apostas.
-- **Base curada:** são 43 fichas por rua e situação, com a página do livro de cada uma. Na rodada 2 ela teve a melhor concordância do modelo e decisões 30% mais rápidas que com o livro, mas sem diferença estatística em relação às outras fontes.
+- **Base curada:** são 43 fichas por fase da mão e situação, com a página do livro de cada uma. Na rodada 2 ela teve a melhor concordância do modelo e decisões 30% mais rápidas que com o livro, mas sem diferença estatística em relação às outras fontes.
 - **Correção automática:** quando a verificação de coerência detecta uma contradição, a ação é trocada. Foi o maior ganho: com ela, as três fontes chegam ao mesmo resultado. A qualidade da decisão depende mais da camada determinística do que do RAG.
 - **Erro grave:** é recomendar Raise quando a referência é Fold, ou o contrário. A referência ignora pote, apostas e histórico da mão, então é uma aproximação.
 

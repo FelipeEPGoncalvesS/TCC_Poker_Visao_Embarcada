@@ -1,0 +1,4 @@
+Conjunto;Detecções corretas;Cartas trocadas;% cartas trocadas;Falsos positivos (fundo);Cartas não detectadas
+Treino;19050;132;0,688145136065061;63800;0
+Validação;925;4;0,43057050592034446;2637;1
+Teste;596;6;0,9966777408637874;1775;0

@@ -1,0 +1,3 @@
+Configuração;N;Concordância (%);Erro grave (%);Coerentes (%);Formato válido (%);Tempo médio (s);Tokens de prompt (média);Consultas com trecho usado (%);Escore máximo médio;Temperatura máxima (°C)
+LLM sem RAG;40;55,000;15,000;92,500;97,500;9,851;218,125;;;72,200
+LLM com RAG;40;30,000;35,000;77,500;100,000;17,787;357,675;100,000;0,660;73,200

@@ -1,0 +1,349 @@
+{
+ "descricao": "Base curada de estratégia para o RAG: uma ficha por rua e situação, parafraseando 'O livro verde do pôquer' (Gordon). 'pagina' = páginas do PDF usado na ingestão. Depois de editar, rode: python criar_base_curada.py",
+ "fichas": [
+  {
+   "id": "preflop-premium_inicial",
+   "rua": "PRÉ-FLOP",
+   "situacao": "premium_inicial",
+   "texto": "Mão premium: abra o pote com aumento (Raise). O aumento reduz o número de oponentes: AA vence 85,5% contra uma mão aleatória, mas só 55,8% contra quatro.",
+   "fonte": "Gordon, O livro verde do pôquer [14]",
+   "pagina": "23-24"
+  },
+  {
+   "id": "preflop-premium_final",
+   "rua": "PRÉ-FLOP",
+   "situacao": "premium_final",
+   "texto": "Mão premium em posição final: Raise; aumentos das posições finais (3,5 a 4 big blinds) fazem os demais desistirem e dificultam o reaumento dos blinds.",
+   "fonte": "Gordon, O livro verde do pôquer [14]",
+   "pagina": "23-24, 27"
+  },
+  {
+   "id": "preflop-premium_blinds",
+   "rua": "PRÉ-FLOP",
+   "situacao": "premium_blinds",
+   "texto": "Mão premium nos blinds: Raise. Fora de posição o jogo é mais difícil, por isso convém reduzir o número de oponentes antes do flop.",
+   "fonte": "Gordon, O livro verde do pôquer [14]",
+   "pagina": "23-24, 30"
+  },
+  {
+   "id": "preflop-fortes_inicial",
+   "rua": "PRÉ-FLOP",
+   "situacao": "fortes_inicial",
+   "texto": "Mão forte abrindo o pote: aumente (Raise) em vez de apenas pagar o big blind; em posição inicial, um aumento de 2,5 a 3 big blinds basta.",
+   "fonte": "Gordon, O livro verde do pôquer [14]",
+   "pagina": "23, 27"
+  },
+  {
+   "id": "preflop-fortes_final",
+   "rua": "PRÉ-FLOP",
+   "situacao": "fortes_final",
+   "texto": "Mão forte em posição final: Raise, de 3,5 a 4 big blinds, para tomar a iniciativa e jogar o pós-flop em posição.",
+   "fonte": "Gordon, O livro verde do pôquer [14]",
+   "pagina": "18, 27"
+  },
+  {
+   "id": "preflop-fortes_blinds",
+   "rua": "PRÉ-FLOP",
+   "situacao": "fortes_blinds",
+   "texto": "Mão forte nos blinds: Raise ou Call; fora de posição, o objetivo é perder pouco e só jogar pote grande com mão boa depois do flop.",
+   "fonte": "Gordon, O livro verde do pôquer [14]",
+   "pagina": "21, 30"
+  },
+  {
+   "id": "preflop-medios_inicial",
+   "rua": "PRÉ-FLOP",
+   "situacao": "medios_inicial",
+   "texto": "Mão média em posição inicial: cartas com kicker fraco são facilmente dominadas (AK vence AQ em 74% das vezes); Fold ou Call barato, sem inflar o pote.",
+   "fonte": "Gordon, O livro verde do pôquer [14]",
+   "pagina": "35-36"
+  },
+  {
+   "id": "preflop-medios_final",
+   "rua": "PRÉ-FLOP",
+   "situacao": "medios_final",
+   "texto": "Mão média em posição final: se ninguém abriu o pote, Raise para disputar os blinds; diante de aumento, Fold com kicker fraco para não ser dominado.",
+   "fonte": "Gordon, O livro verde do pôquer [14]",
+   "pagina": "24-25, 35-36"
+  },
+  {
+   "id": "preflop-medios_blinds",
+   "rua": "PRÉ-FLOP",
+   "situacao": "medios_blinds",
+   "texto": "Mão média nos blinds: fora de posição, a meta é minimizar perdas; Call barato, ou Check no Big Blind sem aumento; Fold diante de aumento forte.",
+   "fonte": "Gordon, O livro verde do pôquer [14]",
+   "pagina": "30-32, 47"
+  },
+  {
+   "id": "preflop-lixo_marginal_inicial",
+   "rua": "PRÉ-FLOP",
+   "situacao": "lixo_marginal_inicial",
+   "texto": "Mão fraca em posição inicial: está fora das mãos iniciais recomendadas para essa posição; Fold.",
+   "fonte": "Gordon, O livro verde do pôquer [14]",
+   "pagina": "22, 162-163"
+  },
+  {
+   "id": "preflop-lixo_marginal_final",
+   "rua": "PRÉ-FLOP",
+   "situacao": "lixo_marginal_final",
+   "texto": "Mão fraca em posição final: Fold. Roubar os blinds com ela depende de ler os oponentes, informação que o sistema não tem; nunca pague aumento.",
+   "fonte": "Gordon, O livro verde do pôquer [14]",
+   "pagina": "34-35, 162-163"
+  },
+  {
+   "id": "preflop-lixo_marginal_blinds",
+   "rua": "PRÉ-FLOP",
+   "situacao": "lixo_marginal_blinds",
+   "texto": "Mão fraca nos blinds: no Big Blind sem aumento, Check para ver o flop de graça; no Small Blind, fora de posição, Fold.",
+   "fonte": "Gordon, O livro verde do pôquer [14]",
+   "pagina": "30-32, 47"
+  },
+  {
+   "id": "preflop-conectores_naipes_inicial",
+   "rua": "PRÉ-FLOP",
+   "situacao": "conectores_naipes_inicial",
+   "texto": "Mão especulativa (conectores ou ás com carta baixa) em posição inicial: depende de acertar o flop; Fold ou Call barato, sem aumentar fora de posição.",
+   "fonte": "Gordon, O livro verde do pôquer [14]",
+   "pagina": "25-26, 28"
+  },
+  {
+   "id": "preflop-conectores_naipes_final",
+   "rua": "PRÉ-FLOP",
+   "situacao": "conectores_naipes_final",
+   "texto": "Mão especulativa em posição final: boa para pagar (Call) quando outros só pagaram o big blind, pois raramente está dominada e ganha valor com a posição; se ninguém entrou, Raise para disputar os blinds.",
+   "fonte": "Gordon, O livro verde do pôquer [14]",
+   "pagina": "24-25, 28-29"
+  },
+  {
+   "id": "preflop-conectores_naipes_blinds",
+   "rua": "PRÉ-FLOP",
+   "situacao": "conectores_naipes_blinds",
+   "texto": "Mão especulativa nos blinds: Call barato para ver o flop, ou Check no Big Blind sem aumento; fora de posição, aposte só se o flop ajudar e desista se não ajudar.",
+   "fonte": "Gordon, O livro verde do pôquer [14]",
+   "pagina": "30, 47"
+  },
+  {
+   "id": "flop-forte",
+   "rua": "FLOP",
+   "situacao": "forte",
+   "texto": "Trinca ou jogo melhor no flop: aposte (Bet/Raise), sobretudo se o oponente pode ter top pair ou overpair, ou se a mesa permite flush ou sequência.",
+   "fonte": "Gordon, O livro verde do pôquer [14]",
+   "pagina": "56-57, 59"
+  },
+  {
+   "id": "flop-dois_pares",
+   "rua": "FLOP",
+   "situacao": "dois_pares",
+   "texto": "Dois pares no flop: aposte ou aumente; só 17% de chance de melhorar para full house, então a mão precisa vencer como está.",
+   "fonte": "Gordon, O livro verde do pôquer [14]",
+   "pagina": "54"
+  },
+  {
+   "id": "flop-overpair",
+   "rua": "FLOP",
+   "situacao": "overpair",
+   "texto": "Overpair no flop: aposte por valor (Bet) para cobrar de mãos piores; overpairs pequenos são vulneráveis quando a mesa tem projetos.",
+   "fonte": "Gordon, O livro verde do pôquer [14]",
+   "pagina": "52, 75"
+  },
+  {
+   "id": "flop-top_pair",
+   "rua": "FLOP",
+   "situacao": "top_pair",
+   "texto": "Top pair no flop: aposte cerca de dois terços do pote, para que mãos melhores desistam e piores paguem; com kicker fraco em pote concorrido, cuidado.",
+   "fonte": "Gordon, O livro verde do pôquer [14]",
+   "pagina": "28-29, 52"
+  },
+  {
+   "id": "flop-par_medio",
+   "rua": "FLOP",
+   "situacao": "par_medio",
+   "texto": "Par médio, ou par abaixo da maior carta da mesa: mão fraca, pote pequeno; Check/Call barato e Fold diante de aposta alta.",
+   "fonte": "Gordon, O livro verde do pôquer [14]",
+   "pagina": "21"
+  },
+  {
+   "id": "flop-par_baixo",
+   "rua": "FLOP",
+   "situacao": "par_baixo",
+   "texto": "Par baixo no flop: mão fraca, pote pequeno; contra mais de um oponente, Check/Fold.",
+   "fonte": "Gordon, O livro verde do pôquer [14]",
+   "pagina": "21, 48"
+  },
+  {
+   "id": "flop-so_mesa",
+   "rua": "FLOP",
+   "situacao": "so_mesa",
+   "texto": "Jogo apenas na mesa: as cartas do jogador só servem de kicker. Contra vários oponentes, raramente se blefa depois do flop; Check/Fold.",
+   "fonte": "Gordon, O livro verde do pôquer [14]",
+   "pagina": "44-45, 48"
+  },
+  {
+   "id": "flop-projeto_forte",
+   "rua": "FLOP",
+   "situacao": "projeto_forte",
+   "texto": "Flush draw (9 outs) ou sequência aberta (8 outs) no flop: cerca de 33% a 36% de completar até o river (regra do 4); Call até apostas de cerca do tamanho do pote; Bet como semi-blefe só se foi o agressor do pré-flop.",
+   "fonte": "Gordon, O livro verde do pôquer [14]",
+   "pagina": "67, 116-117, 123"
+  },
+  {
+   "id": "flop-projeto_fraco",
+   "rua": "FLOP",
+   "situacao": "projeto_fraco",
+   "texto": "Sequência interna (4 outs) no flop: cerca de 17% até o river; nem uma aposta de 1/4 do pote dá as chances necessárias (5 outs); Check/Fold.",
+   "fonte": "Gordon, O livro verde do pôquer [14]",
+   "pagina": "123, 167"
+  },
+  {
+   "id": "flop-carta_alta",
+   "rua": "FLOP",
+   "situacao": "carta_alta",
+   "texto": "Carta alta sem par e sem projeto: se o flop não melhorou a mão, o jogo acabou; contra vários oponentes, raramente se blefa; Check/Fold.",
+   "fonte": "Gordon, O livro verde do pôquer [14]",
+   "pagina": "44, 48"
+  },
+  {
+   "id": "turn-forte",
+   "rua": "TURN",
+   "situacao": "forte",
+   "texto": "Mão forte no turn: aposte (Bet/Raise); quase nunca dê a carta do river de graça a quem pode completar um projeto.",
+   "fonte": "Gordon, O livro verde do pôquer [14]",
+   "pagina": "69-71"
+  },
+  {
+   "id": "turn-dois_pares",
+   "rua": "TURN",
+   "situacao": "dois_pares",
+   "texto": "Dois pares no turn: aposte para tentar levar o pote logo, especialmente contra mais de um oponente.",
+   "fonte": "Gordon, O livro verde do pôquer [14]",
+   "pagina": "70"
+  },
+  {
+   "id": "turn-overpair",
+   "rua": "TURN",
+   "situacao": "overpair",
+   "texto": "Overpair no turn: aposte se ainda acha que tem a melhor mão; se veio carta que completa flush ou sequência, ceda a iniciativa com Check/Call.",
+   "fonte": "Gordon, O livro verde do pôquer [14]",
+   "pagina": "69, 71-72, 75"
+  },
+  {
+   "id": "turn-top_pair",
+   "rua": "TURN",
+   "situacao": "top_pair",
+   "texto": "Top pair no turn: aposte se acha que tem a melhor mão; diante de carta preocupante, jogue pote pequeno com Check/Call.",
+   "fonte": "Gordon, O livro verde do pôquer [14]",
+   "pagina": "69, 71-72"
+  },
+  {
+   "id": "turn-par_medio",
+   "rua": "TURN",
+   "situacao": "par_medio",
+   "texto": "Par médio no turn: mão média, pote pequeno; Check/Call contra aposta pequena e Fold contra pressão.",
+   "fonte": "Gordon, O livro verde do pôquer [14]",
+   "pagina": "21, 72"
+  },
+  {
+   "id": "turn-par_baixo",
+   "rua": "TURN",
+   "situacao": "par_baixo",
+   "texto": "Par baixo no turn: a mão raramente é a melhor contra mais de um oponente; Check/Fold.",
+   "fonte": "Gordon, O livro verde do pôquer [14]",
+   "pagina": "21, 48"
+  },
+  {
+   "id": "turn-so_mesa",
+   "rua": "TURN",
+   "situacao": "so_mesa",
+   "texto": "Jogo apenas na mesa no turn: só o kicker conta e blefar contra vários oponentes raramente funciona; Check/Fold.",
+   "fonte": "Gordon, O livro verde do pôquer [14]",
+   "pagina": "48"
+  },
+  {
+   "id": "turn-projeto_forte",
+   "rua": "TURN",
+   "situacao": "projeto_forte",
+   "texto": "Projeto de flush ou sequência no turn: completa só em 16% a 18% das vezes (regra do 2); Call apenas aposta de até 1/4 do pote, senão Fold.",
+   "fonte": "Gordon, O livro verde do pôquer [14]",
+   "pagina": "72, 123"
+  },
+  {
+   "id": "turn-projeto_fraco",
+   "rua": "TURN",
+   "situacao": "projeto_fraco",
+   "texto": "Sequência interna no turn: cerca de 9% de completar; nenhuma aposta de tamanho normal compensa; Check/Fold.",
+   "fonte": "Gordon, O livro verde do pôquer [14]",
+   "pagina": "123, 169"
+  },
+  {
+   "id": "turn-carta_alta",
+   "rua": "TURN",
+   "situacao": "carta_alta",
+   "texto": "Carta alta sem par e sem projeto no turn: semi-blefe exige outs que a mão não tem; Check/Fold.",
+   "fonte": "Gordon, O livro verde do pôquer [14]",
+   "pagina": "73-74"
+  },
+  {
+   "id": "river-forte",
+   "rua": "RIVER",
+   "situacao": "forte",
+   "texto": "Mão forte no river: aposte por valor (Bet/Raise) para ser pago; se a carta do river assusta o oponente, aposte em vez de esperar um check-raise.",
+   "fonte": "Gordon, O livro verde do pôquer [14]",
+   "pagina": "77, 79-80"
+  },
+  {
+   "id": "river-dois_pares",
+   "rua": "RIVER",
+   "situacao": "dois_pares",
+   "texto": "Dois pares no river: aposte por valor se a mão provavelmente é a melhor; se um dos pares está na mesa, trate como mão média e faça Check/Call.",
+   "fonte": "Gordon, O livro verde do pôquer [14]",
+   "pagina": "78-79"
+  },
+  {
+   "id": "river-overpair",
+   "rua": "RIVER",
+   "situacao": "overpair",
+   "texto": "Overpair no river: mão de força moderada; apostar só faz ser pago por mãos melhores; prefira Check/Call.",
+   "fonte": "Gordon, O livro verde do pôquer [14]",
+   "pagina": "78"
+  },
+  {
+   "id": "river-top_pair",
+   "rua": "RIVER",
+   "situacao": "top_pair",
+   "texto": "Top pair no river: mão de força moderada; apostar fora de posição é um dos piores erros; prefira Check/Call.",
+   "fonte": "Gordon, O livro verde do pôquer [14]",
+   "pagina": "78-79"
+  },
+  {
+   "id": "river-par_medio",
+   "rua": "RIVER",
+   "situacao": "par_medio",
+   "texto": "Par médio no river: Check/Call apenas aposta pequena; Fold diante de aposta grande.",
+   "fonte": "Gordon, O livro verde do pôquer [14]",
+   "pagina": "78"
+  },
+  {
+   "id": "river-par_baixo",
+   "rua": "RIVER",
+   "situacao": "par_baixo",
+   "texto": "Par baixo no river: pouco valor de showdown; Check/Fold.",
+   "fonte": "Gordon, O livro verde do pôquer [14]",
+   "pagina": "78"
+  },
+  {
+   "id": "river-so_mesa",
+   "rua": "RIVER",
+   "situacao": "so_mesa",
+   "texto": "Jogo apenas na mesa no river: todos dividem a combinação e só o kicker decide; Check/Fold.",
+   "fonte": "Gordon, O livro verde do pôquer [14]",
+   "pagina": "48, 78"
+  },
+  {
+   "id": "river-carta_alta",
+   "rua": "RIVER",
+   "situacao": "carta_alta",
+   "texto": "Carta alta no river: blefar exige ter percebido fraqueza no oponente, leitura que o sistema não faz; Check/Fold.",
+   "fonte": "Gordon, O livro verde do pôquer [14]",
+   "pagina": "76, 78"
+  }
+ ]
+}

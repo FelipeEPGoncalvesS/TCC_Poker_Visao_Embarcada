@@ -1,0 +1,4 @@
+Configuração;N;Concordância LLM (%);Erro grave LLM (%);Concordância com correção (%);Erro grave com correção (%);Concordância sistema híbrido (%);Erro grave sistema híbrido (%);Coerentes LLM (%);Corrigidas (%);Formato válido (%);Tempo médio LLM (s);Tempo mínimo LLM (s);Tempo máximo LLM (s);Tokens de prompt (média);Escore máximo médio;Temperatura máxima (°C)
+sem RAG;40;42,500;17,500;50,000;10,000;52,500;10,000;90,000;10,000;100,000;10,019;6,331;16,058;216,675;;72,700
+RAG livro;40;37,500;22,500;50,000;10,000;52,500;10,000;82,500;17,500;100,000;17,255;13,202;22,456;359,750;0,655;72,200
+RAG curado;40;47,500;12,500;50,000;10,000;52,500;10,000;97,500;2,500;92,500;12,141;8,848;17,218;248,525;0,529;71,000

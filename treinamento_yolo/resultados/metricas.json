@@ -1,0 +1,79 @@
+{
+  "modelo": "yolov8n.pt",
+  "epocas": 50,
+  "metricas": {
+    "train": {
+      "P": 0.9910441313875384,
+      "R": 0.9900066725317574,
+      "F1": 0.9905251303056158,
+      "mAP50": 0.9942469789900084,
+      "mAP50-95": 0.9710050280630637,
+      "ms/imagem (inferência)": 4.128217727762052,
+      "pasta": "/content/drive/MyDrive/TCC_YOLO/yolov8n_50ep/avaliacao/train"
+    },
+    "val": {
+      "P": 0.9878958430006366,
+      "R": 0.9856958954451331,
+      "F1": 0.9867946430905616,
+      "mAP50": 0.9924491835530197,
+      "mAP50-95": 0.9822317194242008,
+      "ms/imagem (inferência)": 5.132856201412757,
+      "pasta": "/content/drive/MyDrive/TCC_YOLO/yolov8n_50ep/avaliacao/val"
+    },
+    "test": {
+      "P": 0.9899530460196965,
+      "R": 0.9836285965665947,
+      "F1": 0.9867806877724385,
+      "mAP50": 0.9942849373477199,
+      "mAP50-95": 0.9837004719764899,
+      "ms/imagem (inferência)": 4.615541525998123,
+      "pasta": "/content/drive/MyDrive/TCC_YOLO/yolov8n_50ep/avaliacao/test"
+    }
+  },
+  "composicao": [
+    {
+      "Conjunto": "Treino",
+      "Imagens": 6285,
+      "% imagens": 93.23542501112594,
+      "Instâncias": 19182,
+      "% instâncias": 92.6040359177368,
+      "Imagens originais": 2095,
+      "% originais": 82.12465699725598,
+      "Fator de aumento": 3.0,
+      "Sem rótulo": 3
+    },
+    {
+      "Conjunto": "Validação",
+      "Imagens": 283,
+      "% imagens": 4.1981901794985905,
+      "Instâncias": 930,
+      "% instâncias": 4.4897170995462,
+      "Imagens originais": 283,
+      "% originais": 11.093688749509996,
+      "Fator de aumento": 1.0,
+      "Sem rótulo": 0
+    },
+    {
+      "Conjunto": "Teste",
+      "Imagens": 173,
+      "% imagens": 2.5663848093754638,
+      "Instâncias": 602,
+      "% instâncias": 2.906246982717003,
+      "Imagens originais": 173,
+      "% originais": 6.781654253234026,
+      "Fator de aumento": 1.0,
+      "Sem rótulo": 0
+    },
+    {
+      "Conjunto": "Total",
+      "Imagens": 6741,
+      "% imagens": 100.0,
+      "Instâncias": 20714,
+      "% instâncias": 100.0,
+      "Imagens originais": 2551,
+      "% originais": 100.0,
+      "Fator de aumento": 2.6424931399451195,
+      "Sem rótulo": 3
+    }
+  ]
+}

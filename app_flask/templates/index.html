@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Assistente de Pôquer</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="topo">
+    <div class="marca">
+      <h1>Assistente de Pôquer</h1>
+      <span class="sub">YOLOv8 · RAG · Gemma3 1B · Raspberry Pi 5</span>
+    </div>
+    <div class="status" id="status" aria-live="polite"></div>
+  </header>
+
+  <main class="grade">
+    <section class="painel" id="painel-mao">
+      <h2><span class="passo">1</span> Nova mão</h2>
+      <p class="dica">Escolha sua posição na mesa e inicie a mão.</p>
+      <div class="posicoes" role="radiogroup" aria-label="Posição">
+        {% for sigla, nome in posicoes.items() %}
+        <button type="button" class="pos" data-pos="{{ sigla }}" title="{{ nome }}" role="radio" aria-checked="false">{{ sigla }}</button>
+        {% endfor %}
+      </div>
+      <button type="button" id="btn-nova-mao" class="btn primario" disabled>Iniciar nova mão</button>
+    </section>
+
+    <section class="painel" id="painel-cartas">
+      <h2><span class="passo">2</span> Cartas</h2>
+      <ol class="etapas" id="etapas"></ol>
+      <div class="acoes-captura">
+        <button type="button" id="btn-camera" class="btn primario">Capturar com a câmera</button>
+        <label class="btn" for="arquivo">Enviar imagem</label>
+        <input type="file" id="arquivo" accept="image/*" hidden>
+      </div>
+      <form id="form-manual" class="manual">
+        <input id="texto-manual" placeholder="ou digite: 8h 8c  |  J Trefoils, Q Hearts, 3 Diamonds" autocomplete="off">
+        <button class="btn" type="submit">Registrar</button>
+      </form>
+      <div id="msg-cartas" class="mensagens"></div>
+      <figure id="fig-deteccao" class="deteccao" hidden>
+        <img id="img-deteccao" alt="Imagem anotada pelo YOLO">
+        <figcaption id="cap-deteccao"></figcaption>
+      </figure>
+    </section>
+
+    <section class="painel mesa-painel">
+      <h2>Mesa</h2>
+      <div class="feltro">
+        <div class="linha-mesa">
+          <span class="rotulo">Board</span>
+          <div class="cartas" id="board"></div>
+        </div>
+        <div class="linha-mesa">
+          <span class="rotulo">Sua mão</span>
+          <div class="cartas" id="mao"></div>
+        </div>
+        <div class="info-pos" id="info-pos">Nenhuma mão em andamento.</div>
+      </div>
+    </section>
+
+    <section class="painel" id="painel-decisao">
+      <h2><span class="passo">3</span> Decisão</h2>
+      <div class="linha-decidir">
+        <button type="button" id="btn-decidir" class="btn primario">Obter decisão</button>
+        <label class="check"><input type="checkbox" id="forcar-llm"> Forçar RAG + LLM (ignorar fast-path)</label>
+      </div>
+      <div id="carregando" class="carregando" hidden>
+        <span class="spinner" aria-hidden="true"></span>
+        <span>Gerando decisão…</span>
+        <span id="cronometro" class="mono">0,0 s</span>
+      </div>
+      <div id="msg-decisao" class="mensagens"></div>
+      <div id="resultado" hidden></div>
+    </section>
+
+    <section class="painel largo">
+      <div class="cab-historico">
+        <h2>Histórico da mão</h2>
+        <a class="link" href="/api/benchmark.csv">Baixar benchmark completo (CSV)</a>
+      </div>
+      <div class="tabela-rolagem">
+        <table class="historico">
+          <thead>
+            <tr><th>Etapa</th><th>Ação</th><th>Caminho</th><th>Detecção</th><th>RAG</th><th>LLM</th><th>Decisão</th><th>Coerente</th></tr>
+          </thead>
+          <tbody id="historico"><tr><td colspan="8" class="vazio">Nenhuma decisão ainda.</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

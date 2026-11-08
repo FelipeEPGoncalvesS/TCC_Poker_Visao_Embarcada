@@ -1,0 +1,26 @@
+{
+  "manual_estrategia": {
+    "categorias": {
+      "premium": {
+        "tipos": ["AA", "KK", "QQ", "AKs", "AKo", "AQs", "AJs"],
+        "estrategia": "Mão Premium. Aumentar a aposta (Raise/Bet) agressivamente para construir o pote."
+      },
+      "fortes": {
+        "tipos": ["AQo", "AJo", "ATs", "ATo", "KQs", "KQo", "JJ", "TT", "99", "88", "77", "66", "55", "44", "33", "22"],
+        "estrategia": "Mão forte. Aumentar a aposta (Raise) para isolar oponentes."
+      },
+      "conectores_naipes": {
+        "tipos": ["A6s", "A6o", "A4s", "A3s", "A2s", "K9s", "JTs", "J9s","QJo", "QTs", "T9s", "98s", "87s", "76s"],
+        "estrategia": "Conector Suited. Jogar de forma passiva (Call) para buscar sequências ou flushes."
+      },
+      "medios": {
+        "tipos": ["A9s", "A9o", "A8s", "A8o", "A7s", "A7o", "A5s", "A5o", "KJs", "KJo", "JTo", "KTs", "KTo", "QJs"],
+        "estrategia": "Mão média. Jogar com cautela (Call) ou Raise moderado dependendo da posição."
+      },
+      "lixo_marginal": {
+        "tipos": ["trash"],
+        "estrategia": "Mão sem valor. A decisão correta é o Fold (Desistir)."
+      }
+    }
+  }
+}

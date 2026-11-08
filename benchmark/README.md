@@ -1,6 +1,6 @@
 # Benchmark da camada de decisão
 
-Os CSVs foram gerados por `app_flask/benchmark_rag.py` na Raspberry Pi 5. Cada situação sorteada (dez por rua) é decidida pelo Gemma 3 1B com o caminho rápido desligado. Só muda o conteúdo recuperado:
+Os CSVs foram gerados por `app_flask/benchmark_rag.py` na Raspberry Pi 5. Cada situação sorteada (dez por fase da mão) é decidida pelo Gemma 3 1B com o caminho rápido desligado. Só muda o conteúdo recuperado:
 
 - **sem RAG:** nenhum trecho;
 - **livro:** dois trechos do livro;

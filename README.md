@@ -11,7 +11,7 @@ Este é um sistema que roda inteiro em uma Raspberry Pi 5, sem nuvem. Ele reconh
 - **Detecção:** um YOLOv8n exportado para NCNN identifica as 52 cartas.
 - **Avaliação:** um avaliador determinístico classifica a mão.
 - **Caminho rápido:** resolve sozinho os casos conclusivos.
-- **Modelo de linguagem:** o Gemma 3 1B, com Geração Aumentada por Recuperação (RAG), decide os casos ambíguos.
+- **Modelo de linguagem:** o Gemma 3 1B, com Geração Aumentada por Recuperação (RAG), propõe a ação e a justificativa nos casos ambíguos. Os resultados indicam que a escolha da ação deve ficar com as regras e que o papel adequado do modelo é explicar a recomendação.
 - **Interface:** uma aplicação Flask valida e mede cada etapa.
 
 📄 **Documento completo:** [docs/TCC_Felipe_Goncalves.pdf](docs/TCC_Felipe_Goncalves.pdf)
@@ -20,16 +20,17 @@ Este é um sistema que roda inteiro em uma Raspberry Pi 5, sem nuvem. Ele reconh
 
 ## Principais resultados
 
-### Detecção de cartas (YOLOv8n, 50 épocas)
+### Detecção de cartas (modelo embarcado: YOLOv8n, 50 épocas)
 
 | Conjunto | Imagens | P | R | mAP50 | mAP50-95 |
 |---|---:|---:|---:|---:|---:|
-| Treino | 6.285 | 0,991 | 0,990 | 0,994 | 0,971 |
-| Validação | 283 | 0,988 | 0,986 | 0,992 | 0,982 |
-| Teste | 173 | 0,990 | 0,984 | 0,994 | 0,984 |
+| Treino | 6.285 | 0,992 | 0,988 | 0,994 | 0,971 |
+| Validação | 283 | 0,989 | 0,988 | 0,993 | 0,983 |
+| Teste | 173 | 0,990 | 0,989 | 0,995 | 0,983 |
 
-- **Acervo:** 2.551 fotos originais e 20.714 cartas anotadas. As fotos foram divididas em 82% para treino, 11% para validação e 7% para teste, sem fotos em comum entre os conjuntos.
-- **Erros no teste:** só 6 das 602 cartas (1,0%) foram confundidas com outra classe.
+- **Métricas:** são do modelo que roda na Raspberry Pi, avaliado nos três conjuntos.
+- **Acervo:** 2.551 fotos originais e 7.926 cartas anotadas nelas. As fotos foram divididas em 82% para treino, 11% para validação e 7% para teste, sem fotos em comum entre os conjuntos. O aumento de dados (três versões de cada foto) foi aplicado só ao treino: 6.285 imagens com 19.182 anotações.
+- **Erros no teste:** só 5 das 602 cartas (0,8%) foram confundidas com outra classe.
 - **Na Raspberry Pi 5:** a inferência em NCNN leva de 82 a 92 ms, e a detecção completa, cerca de 0,1 s. O mesmo modelo em PyTorch levava de 283 a 346 ms.
 
 <p align="center"><img src="docs/figuras/matriz_confusao_teste.png" width="480" alt="Matriz de confusão no teste"></p>
@@ -47,20 +48,27 @@ Entre 60% e 80% do tempo do modelo de linguagem vai para processar o *prompt*, e
 
 ### Qualidade das decisões: benchmark com referência de equidade
 
-Um script sorteia 40 situações de jogo (dez em cada fase da mão: pré-flop, flop, turn e river) e compara a ação recomendada com uma referência. A referência é a equidade da mão contra dois oponentes, estimada por Monte Carlo. Cada célula mostra concordância / erros graves:
+Um script sorteia 40 situações de jogo (dez por rua) e compara a ação recomendada com uma referência. A referência é a equidade da mão contra dois oponentes, estimada por Monte Carlo. Cada célula mostra concordância / erros graves:
 
-| Configuração | Sem RAG | RAG com o livro | RAG com a base curada |
-|---|---|---|---|
-| Rodada 1 (semente 2026): só o modelo | 55,0% / 15,0% | 30,0% / 35,0% | – |
-| Rodada 2 (semente 2027): só o modelo | 42,5% / 17,5% | 37,5% / 22,5% | 47,5% / 12,5% |
-| Rodada 2: com a correção automática | 50,0% / 10,0% | 50,0% / 10,0% | 50,0% / 10,0% |
-| Rodada 2: sistema híbrido completo | 52,5% / 10,0% | 52,5% / 10,0% | 52,5% / 10,0% |
+| Política | Rodada 1 (semente 2026) | Rodada 2 (semente 2027) |
+|---|---|---|
+| Sempre Fold | 50,0% / 17,5% | 42,5% / 17,5% |
+| Só regras (sem modelo de linguagem) | 65,0% / 0,0% | 60,0% / 2,5% |
+| Modelo sem RAG | 55,0% / 15,0% | 42,5% / 17,5% |
+| Modelo + livro | 30,0% / 35,0% | 37,5% / 22,5% |
+| Modelo + base curada | – | 47,5% / 12,5% |
+| Modelo com correção automática* | – | 50,0% / 10,0% |
+| Sistema híbrido completo* | – | 52,5% / 10,0% |
+
+\* Com qualquer das três fontes de conhecimento.
 
 O que os resultados mostram:
 
-- **Trechos do livro:** pioraram as decisões na rodada 1 (McNEMAR, p ≈ 0,006). O estilo agressivo do livro, fora de contexto, empurrou o modelo para apostas.
-- **Base curada:** são 43 fichas por fase da mão e situação, com a página do livro de cada uma. Na rodada 2 ela teve a melhor concordância do modelo e decisões 30% mais rápidas que com o livro, mas sem diferença estatística em relação às outras fontes.
-- **Correção automática:** quando a verificação de coerência detecta uma contradição, a ação é trocada. Foi o maior ganho: com ela, as três fontes chegam ao mesmo resultado. A qualidade da decisão depende mais da camada determinística do que do RAG.
+- **Regras determinísticas:** sozinhas, tiveram a maior concordância nas duas rodadas, acima do modelo sem RAG (McNemar, p = 0,04 na rodada 2). O modelo sem RAG, na rodada 2, não superou a política de sempre desistir. A escolha da ação deve ficar com a camada determinística, e o modelo de linguagem deve explicar a recomendação.
+- **Trechos do livro:** pioraram as decisões na rodada 1 (McNemar, p ≈ 0,006). O estilo agressivo do livro, fora de contexto, empurrou o modelo para apostas.
+- **Índice do livro:** o índice original tinha 11.129 trechos, com o livro ingerido várias vezes e trechos de outra obra. Ele foi refeito com uma única ingestão (1.134 trechos) e as duas rodadas foram repetidas: a concordância com a referência foi a mesma, situação a situação.
+- **Base curada:** são 43 fichas por rua e situação, com a página do livro de cada uma. Na rodada 2 ela teve a melhor concordância do modelo e decisões 30% mais rápidas que com o livro, mas sem diferença estatística em relação às outras fontes.
+- **Correção automática:** quando a verificação de coerência detecta uma contradição, a ação é trocada. Com ela, as três fontes chegam ao mesmo resultado.
 - **Erro grave:** é recomendar Raise quando a referência é Fold, ou o contrário. A referência ignora pote, apostas e histórico da mão, então é uma aproximação.
 
 <p align="center"><img src="docs/figuras/interface_flask.png" width="380" alt="Interface Flask"></p>
@@ -76,9 +84,12 @@ O que os resultados mostram:
 │   ├── base_estrategia.json        base curada (43 fichas com páginas do livro)
 │   ├── criar_base_curada.py        cria o índice Chroma da base curada
 │   ├── benchmark_rag.py            benchmark em lote (sem RAG x livro x curada)
+│   ├── politicas_comparacao.py     políticas sempre Fold e só regras
+│   ├── verificar_indice_livro.py   conta trechos repetidos no índice do livro
+│   ├── reindexar_livro.py          refaz o índice do livro com uma única ingestão
 │   └── Regras mãos poker.json      categorias das 169 mãos pré-flop
 ├── treinamento_yolo/     notebook do Colab, pesos e resultados do detector
-├── benchmark/            CSVs das duas rodadas e dos testes na interface
+├── benchmark/            CSVs das duas rodadas, do livro reindexado e dos testes na interface
 └── docs/                 documento do TCC e figuras
 ```
 
@@ -106,8 +117,8 @@ ollama pull nomic-embed-text
 Exporte os pesos para NCNN e informe o caminho ao `config.py`:
 
 ```bash
-yolo export model=treinamento_yolo/pesos/yolov8n_cartas_best.pt format=ncnn imgsz=640
-export YOLO_MODEL_PATH=$PWD/treinamento_yolo/pesos/yolov8n_cartas_best_ncnn_model
+yolo export model=treinamento_yolo/pesos/yolov8n_cartas_embarcado.pt format=ncnn imgsz=640
+export YOLO_MODEL_PATH=$PWD/treinamento_yolo/pesos/yolov8n_cartas_embarcado_ncnn_model
 ```
 
 ### 3. Base de conhecimento e servidor
@@ -125,11 +136,12 @@ Para testar a interface num PC sem câmera e sem Ollama, use `USAR_CAMERA=0 LLM_
 ```bash
 python benchmark_rag.py                # 40 situações x 3 configurações (cerca de 30 min)
 python benchmark_rag.py --situacoes 8  # teste rápido
+python politicas_comparacao.py ../benchmark/rodada2_semente2027/benchmark_rag_v2_lote.csv
 ```
 
 ## O que não está no repositório
 
-- **O livro "O livro verde do pôquer" (Phil Gordon) e o índice Chroma feito a partir dele:** são protegidos por direitos autorais. Para usar `RAG_FONTE=livro`, é preciso ter o livro e gerar o índice. A base curada traz só paráfrases curtas com a página de referência.
+- **O livro "O livro verde do pôquer" (Phil Gordon) e o índice Chroma feito a partir dele:** são protegidos por direitos autorais. Para usar `RAG_FONTE=livro`, é preciso ter o livro e gerar o índice com `python reindexar_livro.py caminho/do/livro.pdf`. A base curada traz só paráfrases curtas com a página de referência.
 - **As imagens do conjunto de dados:** estão no Roboflow (projeto `cartas-poker-vks90`, versão 4).
 
 ## Limitações

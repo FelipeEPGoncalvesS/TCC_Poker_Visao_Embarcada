@@ -1,0 +1,26 @@
+{
+  "train": {
+    "P": 0.992,
+    "R": 0.988,
+    "mAP50": 0.994,
+    "mAP50-95": 0.971,
+    "cartas_trocadas": 129,
+    "cartas_anotadas": 19182
+  },
+  "val": {
+    "P": 0.989,
+    "R": 0.988,
+    "mAP50": 0.993,
+    "mAP50-95": 0.983,
+    "cartas_trocadas": 5,
+    "cartas_anotadas": 930
+  },
+  "test": {
+    "P": 0.99,
+    "R": 0.989,
+    "mAP50": 0.995,
+    "mAP50-95": 0.983,
+    "cartas_trocadas": 5,
+    "cartas_anotadas": 602
+  }
+}

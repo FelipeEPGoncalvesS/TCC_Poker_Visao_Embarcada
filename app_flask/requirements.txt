@@ -7,3 +7,6 @@ langchain-chroma
 langchain-ollama
 chromadb
 numpy
+pandas
+pypdf
+langchain-text-splitters

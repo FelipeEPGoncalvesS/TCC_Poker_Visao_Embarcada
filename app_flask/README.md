@@ -5,7 +5,7 @@ Esta pasta é a aplicação que roda na Raspberry Pi 5. O fluxo de uma decisão 
 1. captura a imagem;
 2. detecta as cartas com o YOLO em NCNN;
 3. avalia a mão;
-4. decide pelo caminho rápido ou pelo RAG com o modelo de linguagem;
+4. decide pelo caminho rápido ou, nos casos ambíguos, pede ao modelo de linguagem (com RAG) a ação e a justificativa;
 5. verifica a coerência da resposta;
 6. registra tudo em CSV.
 
@@ -23,16 +23,19 @@ Esta pasta é a aplicação que roda na Raspberry Pi 5. O fluxo de uma decisão 
 | `poker/rag.py` | recuperação: trechos do livro (`BaseConhecimento`), base curada (`BaseCurada`) ou nenhuma (`SemRAG`) |
 | `poker/llm.py` | chamada ao Ollama (Gemma 3 1B), aquecimento e métricas de *tokens* |
 | `poker/pipeline.py` | orquestra todas as etapas de uma decisão |
-| `poker/partida.py` | estado da mão na interface (posição, cartas por fase da mão) |
+| `poker/partida.py` | estado da mão na interface (posição, cartas por rua) |
 | `poker/benchmark.py` | log CSV com tempos, *tokens*, CPU, RAM e temperatura |
 | `benchmark_rag.py` | benchmark em lote contra a referência de equidade |
 | `criar_base_curada.py` | cria o índice Chroma da base curada a partir de `base_estrategia.json` |
+| `politicas_comparacao.py` | calcula as políticas sempre Fold e só regras a partir dos CSVs do benchmark |
+| `verificar_indice_livro.py` | conta os trechos repetidos no índice do livro (`--remover` apaga as cópias, com backup) |
+| `reindexar_livro.py` | refaz o índice do livro a partir do PDF, com uma única ingestão, e guarda o índice anterior |
 
 ## Principais parâmetros (`config.py`)
 
 | Variável | Padrão | Efeito |
 |---|---|---|
-| `RAG_FONTE` | `livro` | `livro` usa trechos de 300 caracteres; `curada` usa as fichas por fase da mão e situação |
+| `RAG_FONTE` | `livro` | `livro` usa trechos de 300 caracteres; `curada` usa as fichas por rua e situação |
 | `USAR_FAST_PATH` | `1` | decide sem o modelo de linguagem nos casos conclusivos |
 | `CORRIGIR_INCOERENCIA` | `1` | troca a ação incoerente pela ação segura da regra violada |
 | `BB_CHECK_GRATIS` | `1` | caminho rápido indica Check, em vez de Fold, para mão fraca no Big Blind |
@@ -54,9 +57,9 @@ Quando `CORRIGIR_INCOERENCIA=1`, a ação do modelo é substituída nos casos ab
 
 ## Base curada (`base_estrategia.json`)
 
-São 43 fichas, uma por fase da mão e situação. No pré-flop, a situação é a categoria da mão combinada com o grupo de posição. No pós-flop, é algo como *top pair*, par médio, projeto forte ou jogo só na mesa.
+São 43 fichas, uma por rua e situação. No pré-flop, a situação é a categoria da mão combinada com o grupo de posição. No pós-flop, é algo como *top pair*, par médio, projeto forte ou jogo só na mesa.
 
-Cada ficha resume a recomendação de "O livro verde do pôquer" e informa as páginas do PDF que a fundamentam. A recuperação filtra a ficha pelos metadados (fase da mão e situação) calculados pelo avaliador e coloca uma única ficha no *prompt*.
+Cada ficha resume a recomendação de "O livro verde do pôquer" e informa as páginas do PDF que a fundamentam. A recuperação filtra a ficha pelos metadados (rua e situação) calculados pelo avaliador e coloca uma única ficha no *prompt*.
 
 Depois de editar o JSON, recrie o índice:
 
@@ -64,6 +67,14 @@ Depois de editar o JSON, recrie o índice:
 python criar_base_curada.py
 ```
 
+## Índice do livro
+
+```bash
+python reindexar_livro.py ~/caminho/o_livro_verde_do_poquer.pdf
+```
+
+O script mostra quantos trechos e de quais arquivos havia no índice anterior, cria o novo em `chroma_db_poker_novo/` e só então troca as pastas. O índice anterior fica em `chroma_db_poker_anterior_<data>/`.
+
 ## Arquivos gerados localmente (não versionados)
 
-`Models/` (modelo NCNN), `chroma_db_poker/` e `chroma_db_curada/` (índices), `logs/` (CSVs) e `Images/` (capturas).
+`Models/` (modelo NCNN), `chroma_db_*/` (índices e cópias de segurança), `logs/` (CSVs) e `Images/` (capturas).

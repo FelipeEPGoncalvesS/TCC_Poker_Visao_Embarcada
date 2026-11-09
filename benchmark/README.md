@@ -1,6 +1,6 @@
 # Benchmark da camada de decisão
 
-Os CSVs foram gerados por `app_flask/benchmark_rag.py` na Raspberry Pi 5. Cada situação sorteada (dez por fase da mão) é decidida pelo Gemma 3 1B com o caminho rápido desligado. Só muda o conteúdo recuperado:
+Os CSVs foram gerados por `app_flask/benchmark_rag.py` na Raspberry Pi 5. Cada situação sorteada (dez por rua) é decidida pelo Gemma 3 1B com o caminho rápido desligado. Só muda o conteúdo recuperado:
 
 - **sem RAG:** nenhum trecho;
 - **livro:** dois trechos do livro;
@@ -24,7 +24,39 @@ A referência é uma aproximação: ignora pote, apostas, histórico da mão e o
 |---|---|
 | `rodada1_semente2026/` | 40 situações × 2 configurações (sem RAG e livro), primeira versão do script |
 | `rodada2_semente2027/` | 40 situações novas × 3 configurações (sem RAG, livro, curada), com a ação do modelo, a ação corrigida e a ação do sistema híbrido |
+| `livro_reindexado/` | as mesmas situações das rodadas 1 e 2, só com o livro, depois de refazer o índice |
 | `testes_interface/` | log das decisões feitas pela interface Flask (mãos A, B e C do TCC e testes avulsos) |
+
+## Índice do livro
+
+O índice usado nas rodadas 1 e 2 tinha 11.129 trechos: 10.809 do livro, ingerido repetidas vezes, e 320 de outra obra. O `app_flask/verificar_indice_livro.py` conta os trechos repetidos, e o `app_flask/reindexar_livro.py` refaz o índice com uma única ingestão do livro (1.134 trechos), guardando o índice anterior.
+
+Com o índice refeito, as duas rodadas foram repetidas só com o livro (pasta `livro_reindexado/`). A concordância com a referência foi a mesma do índice antigo, situação a situação:
+
+| Rodada | Modelo | Com correção | Sistema híbrido |
+|---|---|---|---|
+| 1 (semente 2026) | 30,0% / 35,0% | 62,5% / 5,0% | 65,0% / 5,0% |
+| 2 (semente 2027) | 37,5% / 22,5% | 50,0% / 10,0% | 52,5% / 10,0% |
+
+## Políticas de comparação
+
+O `app_flask/politicas_comparacao.py` calcula duas políticas sem modelo de linguagem para as mesmas situações:
+
+- **sempre Fold;**
+- **só regras:** o caminho rápido e, nos demais casos, a ação principal da ficha da base curada para a situação.
+
+```bash
+cd app_flask
+python politicas_comparacao.py ../benchmark/rodada1_semente2026/benchmark_rag_lote.csv ../benchmark/rodada2_semente2027/benchmark_rag_v2_lote.csv
+```
+
+| Política | Rodada 1 | Rodada 2 |
+|---|---|---|
+| Sempre Fold | 50,0% / 17,5% | 42,5% / 17,5% |
+| Só regras | 65,0% / 0,0% | 60,0% / 2,5% |
+| Modelo sem RAG | 55,0% / 15,0% | 42,5% / 17,5% |
+
+Na rodada 2, só regras supera o modelo sem RAG (McNemar, p = 0,04). As situações dessa rodada não foram usadas para escrever as fichas.
 
 ## Principais colunas (rodada 2)
 
